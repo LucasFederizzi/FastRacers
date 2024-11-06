@@ -1,8 +1,6 @@
 import pygame
 import random
 
-
-
 pygame.init()
 tamanho = (1061,800)
 clock = pygame.time.Clock()
@@ -16,23 +14,12 @@ verde = (0,255,0)
 azulP = (0,0,255)
 azulA = (20,170,255)
 
-
-
-
 fundo = pygame.image.load("Recursos/interlagos4Block.png")
 carro1 = pygame.image.load("Recursos/sennaMCLaren.png")
-carro2 = pygame.image.load("Recursos/carro2.png")
+carro2 = pygame.image.load("Recursos/alonsoRenault.png")
 carro3 = pygame.image.load("Recursos/prostWilliams.png")
 fonte = pygame.font.Font("freesansbold.ttf",60)
-
-
-
-
-
-
-
-
-
+fonteMenor = pygame.font.Font("freesansbold.ttf",30)
 
 distCar12 = 0
 distCar13 = 0
@@ -42,8 +29,6 @@ distCar23 = 0
  
 distCar31 = 0
 distCar32 = 0  
-
-
 
 movXCar1 = 0
 movXCar2 = 0
@@ -70,15 +55,9 @@ while True:
     tela.blit(carro3, (movXCar3,posYCar3))
     
     if not acabou :
-        movXCar1 = movXCar1 + 10#random.randint(0,10)
-        movXCar2 = movXCar2 + 10#random.randint(0,10)
-        movXCar3 = movXCar3 + 10#random.randint(0,10)
-    else:
-        pygame.mixer.music.stop()
-        if somDaVitoria == False:
-            pygame.mixer.Sound.play(vitoria)
-            somDaVitoria = True
-        
+        movXCar1 = movXCar1 + random.randint(0,10)
+        movXCar2 = movXCar2 + random.randint(0,10)
+        movXCar3 = movXCar3 + random.randint(0,10)
     
     if movXCar1 > 1000:
         movXCar1 = 0
@@ -92,51 +71,56 @@ while True:
         movXCar3 = 0
         posYCar3 = 555
     
-    textoVermelho = fonte.render("Vermelho Ganhou!", True, branco)
-    textoAmarelo = fonte.render("Amarelo Ganhou!", True, branco)
-    textoAzul = fonte.render("Azul ganhou!", True, branco)
+    textoVermelho = fonte.render("Ayrton Senna do Brasil!!!!"  , True, branco)
+    textoAmarelo = fonte.render("Fernando Alonso Ganhou!", True, branco)
+    textoAzul = fonte.render("Prost ganhou!", True, branco)
     textoEmpate = fonte.render("empatou!!", True, branco)
+
+    ganhandoSenna = fonteMenor.render("Ayrton senna liderando a corrida!", True, verde)
+    ganhandoProst = fonteMenor.render("Prost está em primeiro lugar", True, azulP)
+    ganhandoAlonso = fonteMenor.render("Alonso em primeiro pela Renault", True, azulA)
+
+    if movXCar1 > movXCar2 and movXCar1 > movXCar3:
+        tela.blit(ganhandoSenna, (100,100))
+    elif movXCar2 > movXCar1 and movXCar2 > movXCar3:
+        tela.blit(ganhandoAlonso, (100,100))
+
+    elif movXCar3 > movXCar1 and movXCar3 > movXCar2:
+        tela.blit(ganhandoProst, (100,100))
     
-    #if (movXCar3 > 900 and posYCar3 = 555) or (movXCar1 > 900 and posYCar1 = 450) or (movXCar2 > 900 and posYCar2 = 670):
-        #if movXCar1 == movXCar2 or movXCar3 == movXCar2 or movXCar1 == movXCar3:
-            # tela.blit(textoEmpate, (270,70))
+    
+    if (movXCar3 > 900 and posYCar3 == 555) or (movXCar1 > 900 and posYCar1 == 450) or (movXCar2 > 900 and posYCar2 == 670):
+        if movXCar1 == movXCar2 or movXCar3 == movXCar2 or movXCar1 == movXCar3:
+             tela.blit(textoEmpate, (270,70))
+             acabou = True
 
-
-
-    if posYCar1 == 350 and movXCar1 >= 900 and movXCar1 > movXCar2 and movXCar1 > movXCar3:
+    if posYCar1 == 450 and movXCar1 >= 900 and movXCar1 > movXCar2 and movXCar1 > movXCar3:
         tela.blit(textoVermelho, (270,70))
         acabou = True
+        pygame.mixer.music.stop()
+        if somDaVitoria == False:
+            pygame.mixer.Sound.play(vitoria)
+            somDaVitoria = True
         
     elif posYCar2 == 670 and movXCar2 >= 900 and movXCar2 > movXCar1 and movXCar2 > movXCar3:
         tela.blit(textoAmarelo, (270,180))
         acabou = True
-    
+        pygame.mixer.music.stop()
+
     elif posYCar3 == 555 and movXCar3 >= 900 and movXCar3 > movXCar1 and movXCar3 > movXCar2:
         tela.blit(textoAzul, (270,480))
         acabou = True
-
-
-    
-
-    ganhandoSenna = fonte.render("Ayrton senna liderando a corrida!", True, verde)
-    ganhandoProst = fonte.render("Prost está em primeiro lugar", True, azulP)
-    ganhandoAlonso = fonte.render("Alonso em primeiro pela Renault", True, azulA)
+        pygame.mixer.music.stop()
 
     if movXCar1 > movXCar2 and movXCar1 > movXCar3:
         tela.blit(ganhandoSenna, (100,100))
 
     elif movXCar2 > movXCar1 and movXCar2 > movXCar3:
-        tela.blit(ganhandoProst, (100,100))
+        tela.blit(ganhandoAlonso, (100,100))
 
     elif movXCar3 > movXCar1 and movXCar3 > movXCar2:
-        tela.blit(ganhandoAlonso, (100,100))
-    
-
-
-
-
+        tela.blit(ganhandoProst, (100,100))
     
     pygame.display.update()
     clock.tick(60)
 pygame.quit()
-    
