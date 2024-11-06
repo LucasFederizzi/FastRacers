@@ -12,10 +12,26 @@ pygame.display.set_icon(icone)
 pygame.display.set_caption("Corrida Maluca")
 branco = (255,255,255)
 preta = (0,0,0)
+verde = (0,255,0)
+azulP = (0,0,255)
+azulA = (20,170,255)
+
+
+
+
 fundo = pygame.image.load("Recursos/interlagos4Block.png")
 carro1 = pygame.image.load("Recursos/sennaMCLaren.png")
 carro2 = pygame.image.load("Recursos/carro2.png")
 carro3 = pygame.image.load("Recursos/prostWilliams.png")
+fonte = pygame.font.Font("freesansbold.ttf",60)
+
+
+
+
+
+
+
+
 
 
 distCar12 = 0
@@ -54,9 +70,9 @@ while True:
     tela.blit(carro3, (movXCar3,posYCar3))
     
     if not acabou :
-        movXCar1 = movXCar1 + random.randint(0,10)
-        movXCar2 = movXCar2 + random.randint(0,10)
-        movXCar3 = movXCar3 + random.randint(0,10)
+        movXCar1 = movXCar1 + 10#random.randint(0,10)
+        movXCar2 = movXCar2 + 10#random.randint(0,10)
+        movXCar3 = movXCar3 + 10#random.randint(0,10)
     else:
         pygame.mixer.music.stop()
         if somDaVitoria == False:
@@ -76,11 +92,17 @@ while True:
         movXCar3 = 0
         posYCar3 = 555
     
-    fonte = pygame.font.Font("freesansbold.ttf",60)
     textoVermelho = fonte.render("Vermelho Ganhou!", True, branco)
     textoAmarelo = fonte.render("Amarelo Ganhou!", True, branco)
     textoAzul = fonte.render("Azul ganhou!", True, branco)
+    textoEmpate = fonte.render("empatou!!", True, branco)
     
+    #if (movXCar3 > 900 and posYCar3 = 555) or (movXCar1 > 900 and posYCar1 = 450) or (movXCar2 > 900 and posYCar2 = 670):
+        #if movXCar1 == movXCar2 or movXCar3 == movXCar2 or movXCar1 == movXCar3:
+            # tela.blit(textoEmpate, (270,70))
+
+
+
     if posYCar1 == 350 and movXCar1 >= 900 and movXCar1 > movXCar2 and movXCar1 > movXCar3:
         tela.blit(textoVermelho, (270,70))
         acabou = True
@@ -92,6 +114,26 @@ while True:
     elif posYCar3 == 555 and movXCar3 >= 900 and movXCar3 > movXCar1 and movXCar3 > movXCar2:
         tela.blit(textoAzul, (270,480))
         acabou = True
+
+
+    
+
+    ganhandoSenna = fonte.render("Ayrton senna liderando a corrida!", True, verde)
+    ganhandoProst = fonte.render("Prost está em primeiro lugar", True, azulP)
+    ganhandoAlonso = fonte.render("Alonso em primeiro pela Renault", True, azulA)
+
+    if movXCar1 > movXCar2 and movXCar1 > movXCar3:
+        tela.blit(ganhandoSenna, (100,100))
+
+    elif movXCar2 > movXCar1 and movXCar2 > movXCar3:
+        tela.blit(ganhandoProst, (100,100))
+
+    elif movXCar3 > movXCar1 and movXCar3 > movXCar2:
+        tela.blit(ganhandoAlonso, (100,100))
+    
+
+
+
 
     
     pygame.display.update()
