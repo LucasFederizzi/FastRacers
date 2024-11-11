@@ -26,6 +26,10 @@ carro3 = pygame.image.load("Recursos/prostWilliams.png")
 fonte = pygame.font.Font("freesansbold.ttf",60)
 fonteMenor = pygame.font.Font("freesansbold.ttf",30)
 
+valorPole1 = 0
+valorPole2 = 0
+valorPole3 = 0
+
 
 distCar12 = 0
 distCar13 = 0
@@ -152,26 +156,66 @@ while True:
     p2 = fonte.render("P2", True, azulP)
     p3 = fonte.render("p3", True, vermelho)
 
+    if posYCar1 == 450:
+        valorPole1 = movXCar1 + 1062
+    if posYCar2 == 670:
+        valorPole2 = movXCar2 + 1062
+    if posYCar3 == 555:
+        valorPole3 = movXCar3 + 1062
+
+    if posYCar1 == 50:
+        valorPole1 = movXCar1
+
+    if posYCar2 == 270:
+        valorPole2 = movXCar2
+
+    if posYCar3 == 155:
+        valorPole3 = movXCar3
 
 
+    #P1
     if not acabou and max == 10: #and movXcarMax > movXCar1 and movXcarMax > movXCar2 and movXcarMax > movXCar3:
         tela.blit(maxOMG, (-15,400))
-
-    elif not acabou and max != 10 and movXCar1 > movXCar2 and movXCar1 > movXCar3:
+    elif not acabou and max != 10 and valorPole1 > valorPole2 and valorPole1 > valorPole3:
         tela.blit(ganhandoSenna, (100,50))
         tela.blit(p1, ((movXCar1 + 40),(posYCar1 - 30)))
+        sennaPrimeiro = True
 
-    elif not acabou and max != 10 and movXCar2 > movXCar1 and movXCar2 > movXCar3:
+    elif not acabou and max != 10 and valorPole2 > valorPole1 and valorPole2 > valorPole3:
         tela.blit(ganhandoAlonso, (100,50))
         tela.blit(p1, ((movXCar2 + 40),(posYCar2 - 30)))
+        alonsoPrimeiro = True
 
-    elif not acabou and max != 10 and movXCar3 > movXCar1 and movXCar3 > movXCar2:
+    elif not acabou and max != 10 and valorPole3 > valorPole1 and valorPole3 > valorPole2:
         tela.blit(ganhandoProst, (100,50))
         tela.blit(p1, ((movXCar3 + 40),(posYCar3 - 30)))
+        prostPrimeiro = True
 
 
-
+    #P2
+    if not acabou and max != 10 and (valorPole1 < valorPole2 and valorPole1 > valorPole3) or (valorPole1 < valorPole3 and valorPole1 > valorPole2):
+        sennaSegundo = True
+        tela.blit(p2, ((movXCar1 + 40),(posYCar1 - 30)))
+    elif not acabou and max != 10 and (valorPole2 < valorPole1 and valorPole2 > valorPole3) or (valorPole2 < valorPole3 and valorPole2 > valorPole1):
+        alonsoSegundo = True
+        tela.blit(p2, ((movXCar2 + 40),(posYCar2 - 30)))
+    elif not acabou and max != 10 and (valorPole3 < valorPole1 and valorPole3 > valorPole2) or (valorPole3 < valorPole2 and valorPole3 > valorPole1):
+        prostSegundo = True
+        tela.blit(p2, ((movXCar3 + 40),(posYCar3 - 30)))
     
+
+    #P3
+    if not acabou and max != 10 and not sennaPrimeiro and not sennaSegundo:
+        sennaTerceiro = True
+        tela.blit(p3, ((movXCar1 + 40),(posYCar1 - 30)))
+    elif not acabou and max != 10 and not alonsoPrimeiro and not alonsoSegundo:
+        alonsoTerceiro = True
+        tela.blit(p3, ((movXCar2 + 40),(posYCar2 - 30)))
+
+    elif not acabou and max != 10 and not prostPrimeiro and not prostSegundo:
+        prostTerceiro = True
+        tela.blit(p3, ((movXCar3 + 40),(posYCar3 - 30)))
+
     
     if (movXCar3 > 900 and posYCar3 == 555) or (movXCar1 > 900 and posYCar1 == 450) or (movXCar2 > 900 and posYCar2 == 670):
         if movXCar1 == movXCar2 or movXCar3 == movXCar2 or movXCar1 == movXCar3:
