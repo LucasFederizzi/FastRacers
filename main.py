@@ -25,6 +25,7 @@ carro2 = pygame.image.load("Recursos/alonsoRenault.png")
 carro3 = pygame.image.load("Recursos/prostWilliams.png")
 fonte = pygame.font.Font("freesansbold.ttf",60)
 fonteMenor = pygame.font.Font("freesansbold.ttf",30)
+fonteMenor2 = pygame.font.Font("freesansbold.ttf",20)
 
 valorPole1 = 0
 valorPole2 = 0
@@ -67,19 +68,28 @@ vitoriaSenna = False
 vitoriaProst = False
 vitoriaAlonso = False
 vitoriaMax = False
-
-sennaPrimeiro = False
-sennaSegundo = False
-sennaTerceiro = False
-prostPrimeiro = False
-prostSegundo = False
-prostTerceiro = False
-alonsoPrimeiro = False
-alonsoSegundo = False
-alonsoTerceiro = False
-
-
 somDaVitoria = False
+distP2 = 0
+distP1 = 0
+distP3 = 0
+
+
+textoSenna = fonte.render("Ayrton Senna do Brasil!!!!"  , True, verde)
+textoAlonso = fonte.render("Fernando Alonso Ganhou!", True, azulA)
+textoProst = fonte.render("Prost ganhou!", True, azulP)
+textoEmpate = fonte.render("empatou!!", True, branco)
+textoMax = fonte.render("MAX VERSTAPPEN DUDUDUDU!!", True, branco)
+
+ganhandoSenna = fonteMenor.render("Ayrton senna liderando a corrida!", True, verde)
+ganhandoProst = fonteMenor.render("Prost está em primeiro lugar", True, azulP)
+ganhandoAlonso = fonteMenor.render("Alonso em primeiro pela Renault", True, azulA)
+maxOMG = fonteMenor.render("HOLLY SHIT ITS MAX VERSTAPPEN!!!?!", True, azulRB)
+
+p1 = fonte.render("P1", True, verde)
+p2 = fonte.render("P2", True, azulP)
+p3 = fonte.render("p3", True, vermelho)
+
+
 while True:
     for evento in pygame.event.get(): 
         if evento.type == pygame.QUIT:
@@ -140,22 +150,8 @@ while True:
     if movXCar3 > 1000:
         movXCar3 = 0
         posYCar3 = 555
-    
-    textoSenna = fonte.render("Ayrton Senna do Brasil!!!!"  , True, verde)
-    textoAlonso = fonte.render("Fernando Alonso Ganhou!", True, azulA)
-    textoProst = fonte.render("Prost ganhou!", True, azulP)
-    textoEmpate = fonte.render("empatou!!", True, branco)
-    textoMax = fonte.render("MAX VERSTAPPEN DUDUDUDU!!", True, branco)
 
-    ganhandoSenna = fonteMenor.render("Ayrton senna liderando a corrida!", True, verde)
-    ganhandoProst = fonteMenor.render("Prost está em primeiro lugar", True, azulP)
-    ganhandoAlonso = fonteMenor.render("Alonso em primeiro pela Renault", True, azulA)
-    maxOMG = fonteMenor.render("HOLLY SHIT ITS MAX VERSTAPPEN!!!?!", True, azulRB)
-
-    p1 = fonte.render("P1", True, verde)
-    p2 = fonte.render("P2", True, azulP)
-    p3 = fonte.render("p3", True, vermelho)
-
+    #ValorPole
     if posYCar1 == 450:
         valorPole1 = movXCar1 + 1062
     if posYCar2 == 670:
@@ -172,6 +168,21 @@ while True:
     if posYCar3 == 155:
         valorPole3 = movXCar3
 
+    distancia1 = fonteMenor2.render("P1: interval", True, branco)
+    distancia2 = fonteMenor2.render(f"P2: {distP2}", True, branco)
+    distancia3 = fonteMenor2.render(f"P3: {distP3}", True, branco)
+    tela.blit(distancia1, ((5),(20)))
+    empateP1 = False
+    empateP2 = False
+    sennaPrimeiro = False
+    sennaSegundo = False
+    sennaTerceiro = False
+    prostPrimeiro = False
+    prostSegundo = False
+    prostTerceiro = False
+    alonsoPrimeiro = False
+    alonsoSegundo = False
+    alonsoTerceiro = False
 
     #P1
     if not acabou and max == 10: #and movXcarMax > movXCar1 and movXcarMax > movXCar2 and movXcarMax > movXCar3:
@@ -190,6 +201,8 @@ while True:
         tela.blit(ganhandoProst, (100,50))
         tela.blit(p1, ((movXCar3 + 40),(posYCar3 - 30)))
         prostPrimeiro = True
+    elif not acabou:
+        empateP1 = True
 
 
     #P2
@@ -202,25 +215,82 @@ while True:
     elif not acabou and max != 10 and (valorPole3 < valorPole1 and valorPole3 > valorPole2) or (valorPole3 < valorPole2 and valorPole3 > valorPole1):
         prostSegundo = True
         tela.blit(p2, ((movXCar3 + 40),(posYCar3 - 30)))
+    elif not acabou:
+        empateP2 = True
     
-
-    #P3
-    if not acabou and max != 10 and not sennaPrimeiro and not sennaSegundo:
+   #P3
+    if not acabou and max != 10 and (valorPole1 < valorPole2 and valorPole1 < valorPole3):
         sennaTerceiro = True
         tela.blit(p3, ((movXCar1 + 40),(posYCar1 - 30)))
-    elif not acabou and max != 10 and not alonsoPrimeiro and not alonsoSegundo:
+    elif not acabou and max != 10 and (valorPole2 < valorPole1 and valorPole2 < valorPole3):
         alonsoTerceiro = True
         tela.blit(p3, ((movXCar2 + 40),(posYCar2 - 30)))
-
-    elif not acabou and max != 10 and not prostPrimeiro and not prostSegundo:
+    elif not acabou and max != 10 and (valorPole3 < valorPole1 and valorPole3 < valorPole2):
         prostTerceiro = True
         tela.blit(p3, ((movXCar3 + 40),(posYCar3 - 30)))
+    else:
+        empateP2 =  True
 
-    
-    if (movXCar3 > 900 and posYCar3 == 555) or (movXCar1 > 900 and posYCar1 == 450) or (movXCar2 > 900 and posYCar2 == 670):
-        if movXCar1 == movXCar2 or movXCar3 == movXCar2 or movXCar1 == movXCar3:
-             tela.blit(textoEmpate, (270,70))
-             acabou = True
+    #distP1 - P2
+    if not empateP1:
+        if sennaPrimeiro and alonsoSegundo:
+            distP2 = ((valorPole1) - valorPole2)
+            tela.blit(distancia2, ((5),(50)))
+        elif sennaPrimeiro and prostSegundo:
+            distP2 = ((valorPole1) - valorPole3)
+            tela.blit(distancia2, ((5),(50)))
+
+        elif alonsoPrimeiro and sennaSegundo:
+            distP2 = ((valorPole2) - valorPole1)
+            tela.blit(distancia2, ((5),(50)))
+        elif alonsoPrimeiro and prostSegundo:
+            distP2 = ((valorPole2) - valorPole3)
+            tela.blit(distancia2, ((5),(50)))
+
+        elif prostPrimeiro and sennaSegundo:
+            distP2 = ((valorPole3) - valorPole1)
+            tela.blit(distancia2, ((5),(50)))
+        elif prostPrimeiro and alonsoSegundo:
+            distP2 = ((valorPole3) - valorPole2)
+            tela.blit(distancia2, ((5),(50)))
+    elif empateP1:
+        distP2 = 0
+        tela.blit(distancia2, ((5),(50)))
+    else :
+        break
+
+
+    #DistP2 - P3
+    if not empateP2:
+        if sennaSegundo and alonsoTerceiro:
+            distP3 = ((valorPole1) - valorPole2)
+            tela.blit(distancia3, ((5),(80)))
+        elif sennaSegundo and prostTerceiro:
+            distP3 = ((valorPole1) - valorPole3)
+            tela.blit(distancia3, ((5),(80)))
+
+        elif alonsoSegundo and sennaTerceiro:
+            distP3 = ((valorPole2) - valorPole1)
+            tela.blit(distancia3, ((5),(80)))
+        elif alonsoSegundo and prostTerceiro:
+            distP3 = ((valorPole2) - valorPole3)
+            tela.blit(distancia3, ((5),(80)))
+
+        elif prostSegundo and sennaTerceiro:
+            distP3 = ((valorPole3) - valorPole1)
+            tela.blit(distancia3, ((5),(80)))
+        elif prostSegundo and alonsoTerceiro:
+            distP3 = ((valorPole3) - valorPole2)
+            tela.blit(distancia3, ((5),(80))) 
+    elif empateP2:
+        distP3 = 0
+        tela.blit(distancia3, ((5),(80)))
+    else :
+        break
+
+    ############################################################  Para tentar entender o bug, não consegui.
+    if not acabou:
+        print(f"{valorPole1}, {valorPole2}, {valorPole3}, P2:{distP2}, P3:{distP3}")
 
     if posYCar1 == 450 and movXCar1 >= 900 and movXCar1 > movXCar2 and movXCar1 > movXCar3:
         tela.blit(textoSenna, (270,70))
@@ -247,5 +317,5 @@ while True:
         pygame.mixer.music.stop()
 
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(30)
 pygame.quit()
