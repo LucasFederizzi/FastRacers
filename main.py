@@ -34,10 +34,8 @@ valorPole3 = 0
 
 distCar12 = 0
 distCar13 = 0
-
 distCar21 = 0
 distCar23 = 0
- 
 distCar31 = 0
 distCar32 = 0  
 
@@ -55,6 +53,12 @@ maxMusica = pygame.mixer.Sound("Recursos/maxMusica.mp3")
 vitoria = pygame.mixer.Sound("Recursos/vitoria.mp3")
 espanha = pygame.mixer.Sound("Recursos/espanha.mp3")
 franca = pygame.mixer.Sound("Recursos/frances.mp3")
+
+winsenna = pygame.image.load("Recursos/sennaPodium.png")
+winalonso = pygame.image.load("Recursos/alonsoPodium.png")
+winprost = pygame.image.load("Recursos/prostPodium.png")
+winmax = pygame.image.load("Recursos/maxPodium.png")
+
 sennaScream = pygame.mixer.Sound("Recursos/sennaScream.mp3")
 vitoria.set_volume(0.5)
 sennaScream.set_volume(0.5)
@@ -73,7 +77,6 @@ distP2 = 0
 distP1 = 0
 distP3 = 0
 
-
 textoSenna = fonte.render("Ayrton Senna do Brasil!!!!"  , True, verde)
 textoAlonso = fonte.render("Fernando Alonso Ganhou!", True, azulA)
 textoProst = fonte.render("Prost ganhou!", True, azulP)
@@ -89,19 +92,18 @@ p1 = fonte.render("P1", True, verde)
 p2 = fonte.render("P2", True, azulP)
 p3 = fonte.render("p3", True, vermelho)
 
-
 while True:
     for evento in pygame.event.get(): 
         if evento.type == pygame.QUIT:
             quit()
-   
+
     tela.fill( branco )
     tela.blit(fundo, (0,0))
     tela.blit(carro1, (movXCar1,posYCar1))
     tela.blit(carro2, (movXCar2,posYCar2))
     tela.blit(carro3, (movXCar3,posYCar3))
     tela.blit(carroMax, (movXcarMax,posYcarMax))
-    
+
     if not acabou :
         movXCar1 = movXCar1 + random.randint(0,10)
         movXCar2 = movXCar2 + random.randint(0,10)
@@ -109,14 +111,12 @@ while True:
         if max == 10:
             movXcarMax = movXcarMax + 30
 
-
     elif acabou and vitoriaSenna:
         pygame.mixer.music.stop()
         if somDaVitoria == False:
             pygame.mixer.Sound.play(vitoria)
             pygame.mixer.Sound.play(sennaScream)
             somDaVitoria = True
-
     elif acabou and vitoriaProst:
         pygame.mixer.music.stop()
         if somDaVitoria == False:
@@ -134,7 +134,6 @@ while True:
             pygame.mixer.Sound.play(maxMusica)
             somDaVitoria = True
 
-    
     if movXcarMax >1000:
         movXcarMax = 0
         posYcarMax = 570
@@ -142,7 +141,7 @@ while True:
     if movXCar1 > 1000:
         movXCar1 = 0
         posYCar1 = 450
-        
+ 
     if movXCar2 > 1000:
         movXCar2 = 0
         posYCar2 = 670
@@ -203,8 +202,6 @@ while True:
         prostPrimeiro = True
     elif not acabou:
         empateP1 = True
-
-
     #P2
     if not acabou and max != 10 and (valorPole1 < valorPole2 and valorPole1 > valorPole3) or (valorPole1 < valorPole3 and valorPole1 > valorPole2):
         sennaSegundo = True
@@ -217,7 +214,6 @@ while True:
         tela.blit(p2, ((movXCar3 + 40),(posYCar3 - 30)))
     elif not acabou:
         empateP2 = True
-    
    #P3
     if not acabou and max != 10 and (valorPole1 < valorPole2 and valorPole1 < valorPole3):
         sennaTerceiro = True
@@ -230,7 +226,6 @@ while True:
         tela.blit(p3, ((movXCar3 + 40),(posYCar3 - 30)))
     else:
         empateP2 =  True
-
     #distP1 - P2
     if not empateP1:
         if sennaPrimeiro and alonsoSegundo:
@@ -258,8 +253,6 @@ while True:
         tela.blit(distancia2, ((5),(50)))
     else :
         break
-
-
     #DistP2 - P3
     if not empateP2:
         if sennaSegundo and alonsoTerceiro:
@@ -275,7 +268,6 @@ while True:
         elif alonsoSegundo and prostTerceiro:
             distP3 = ((valorPole2) - valorPole3)
             tela.blit(distancia3, ((5),(80)))
-
         elif prostSegundo and sennaTerceiro:
             distP3 = ((valorPole3) - valorPole1)
             tela.blit(distancia3, ((5),(80)))
@@ -289,33 +281,44 @@ while True:
         break
 
     ############################################################  Para tentar entender o bug, não consegui.
+
     if not acabou:
         print(f"{valorPole1}, {valorPole2}, {valorPole3}, P2:{distP2}, P3:{distP3}")
 
     if posYCar1 == 450 and movXCar1 >= 900 and movXCar1 > movXCar2 and movXCar1 > movXCar3:
-        tela.blit(textoSenna, (270,70))
         acabou = True
         vitoriaSenna = True
         pygame.mixer.music.stop()
-        
+
     elif posYCar2 == 670 and movXCar2 >= 900 and movXCar2 > movXCar1 and movXCar2 > movXCar3:
-        tela.blit(textoAlonso, (270,180))
         acabou = True
         vitoriaAlonso = True
         pygame.mixer.music.stop()
 
     elif posYCar3 == 555 and movXCar3 >= 900 and movXCar3 > movXCar1 and movXCar3 > movXCar2:
-        tela.blit(textoProst, (270,480))
         acabou = True
         vitoriaProst = True
         pygame.mixer.music.stop()
 
     elif posYcarMax == 570 and movXcarMax >= 900 and movXcarMax > movXCar1 and movXcarMax > movXCar2 and movXcarMax > movXCar3:
-        tela.blit(textoMax, (270,480))
         acabou = True
         vitoriaMax = True
         pygame.mixer.music.stop()
 
+    if acabou and vitoriaSenna:
+        tela.blit(winsenna, (0,0))
+        tela.blit(textoSenna, (270,70))
+    elif acabou and vitoriaAlonso:
+        tela.blit(winalonso, (0,0))
+        tela.blit(textoAlonso, (270,70))
+    elif acabou and vitoriaProst:
+        tela.blit(winprost, (0,0))
+        tela.blit(textoProst, (270,70))
+    elif acabou and vitoriaMax:
+        tela.blit(winmax, (0,0))
+        tela.blit(textoMax, (270,70))
+
+
     pygame.display.update()
-    clock.tick(30)
+    clock.tick(60)
 pygame.quit()
